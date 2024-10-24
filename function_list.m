@@ -1,6 +1,8 @@
 
 funcStruct = containers.Map();
 funcStruct('Images/001_CCMLO_wbenign.jpg') = @(x, y) zerozeroone_CCMLO_wbenign(x, y);
+funcStruct('Images/002_CCMLO_wbenign.jpg') = @(x, y) zerozerotwo_CCMLO_wbenign(x, y);
+funcStruct('Images/003_CCMLO_wbenign.jpg') = @(x, y) zerozerothree_CCMLO_wbenign(x, y);
 
 % Define the function with conditional logic
 function result1 = zerozeroone_CCMLO_wbenign(x, y)
@@ -13,6 +15,23 @@ function result1 = zerozeroone_CCMLO_wbenign(x, y)
         result1 = false;
     end
 end
+function result1 = zerozerotwo_CCMLO_wbenign(x, y)
+    if (x-9.4)^2 + (y-26)^2 < 1.4000000000000004^2 || ...
+        (x-46)^2 + (y-37)^2 < 2^2
+        result1 = true;
+    else
+        result1 = false;
+    end
+end
+function result1 = zerozerothree_CCMLO_wbenign(x, y)
+    if x>24 && x<37 && y<63 && y>53
+        result1 = true;
+    else
+        result1 = false;
+    end
+end
+
+
 % TESTING
 % Display the contents of the map
 % disp(x)
