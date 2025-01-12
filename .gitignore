@@ -1,2 +1,4 @@
 *.png
 *.jpg
+*.heic
+temp_image_holder/
