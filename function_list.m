@@ -1,8 +1,8 @@
 
 funcStruct = containers.Map();
-funcStruct('Images/001_CCMLO_wbenign.jpg') = @(x, y) zerozeroone_CCMLO_wbenign(x, y);
-funcStruct('Images/002_CCMLO_wbenign.jpg') = @(x, y) zerozerotwo_CCMLO_wbenign(x, y);
-funcStruct('Images/003_CCMLO_wbenign.jpg') = @(x, y) zerozerothree_CCMLO_wbenign(x, y);
+funcStruct('Images/001_CCMLO_wbenign.jpg') = {@(x, y) zerozeroone_CCMLO_wbenign(x, y),"Answers/001_CCMLO_key.jpg"};
+funcStruct('Images/002_CCMLO_wbenign.jpg') = {@(x, y) zerozerotwo_CCMLO_wbenign(x, y),"Answers/002_CCMLO_key.jpg"};
+funcStruct('Images/003_CCMLO_wbenign.jpg') = {@(x, y) zerozerothree_CCMLO_wbenign(x, y),"Answers/003_CCMLO_key.jpg"};
 
 % Define the function with conditional logic
 function result1 = zerozeroone_CCMLO_wbenign(x, y)
