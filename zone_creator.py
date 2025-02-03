@@ -9,3 +9,4 @@ def zone(list_of_points):
         radius = abs(i[0] - i[2])
         print(f"(x-{centerx})^2 + (y-{centery})^2 < {radius}^2")        
 
+zone([[55,36, 58]])

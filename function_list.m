@@ -1,8 +1,9 @@
 
 funcStruct = containers.Map();
-funcStruct('Images/001_CCMLO_wbenign.jpg') = {@(x, y) zerozeroone_CCMLO_wbenign(x, y),"Answers/001_CCMLO_key.jpg"};
-funcStruct('Images/002_CCMLO_wbenign.jpg') = {@(x, y) zerozerotwo_CCMLO_wbenign(x, y),"Answers/002_CCMLO_key.jpg"};
-funcStruct('Images/003_CCMLO_wbenign.jpg') = {@(x, y) zerozerothree_CCMLO_wbenign(x, y),"Answers/003_CCMLO_key.jpg"};
+funcStruct('Images/001_CCMLO_wbenign.jpg') = {@(x, y) zerozeroone_CCMLO_wbenign(x, y),"Answers/001_CCMLO_key.jpg", "category1 (image 1)"};
+funcStruct('Images/002_CCMLO_wbenign.jpg') = {@(x, y) zerozerotwo_CCMLO_wbenign(x, y),"Answers/002_CCMLO_key.jpg", "category2 (image 2)"};
+funcStruct('Images/003_CCMLO_wbenign.jpg') = {@(x, y) zerozerothree_CCMLO_wbenign(x, y),"Answers/003_CCMLO_key.jpg", "category3 (image 3-4)"};
+funcStruct('Images/testimage.jpg') = {@(x, y) test(x, y),"Answers/testanswer.jpg", "category3 (image 3-4)"};
 
 % Define the function with conditional logic
 function result1 = zerozeroone_CCMLO_wbenign(x, y)
@@ -25,6 +26,13 @@ function result1 = zerozerotwo_CCMLO_wbenign(x, y)
 end
 function result1 = zerozerothree_CCMLO_wbenign(x, y)
     if x>24 && x<37 && y<63 && y>53
+        result1 = true;
+    else
+        result1 = false;
+    end
+end
+function result1 = test(x, y)
+    if (x-55)^2 + (y-36)^2 < 3^2
         result1 = true;
     else
         result1 = false;
