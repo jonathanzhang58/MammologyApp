@@ -166,7 +166,7 @@ function on_axes_click(fig, ax, event, status_label, count_label, preview_area, 
         % Update preview
         [entry, body] = generate_zone_code(state.ellipses, ...
             state.image_number, state.category);
-        preview_area.Value = [char(entry), newline, newline, body];
+        preview_area.Value = splitlines(sprintf('%s\n\n%s', entry, body));
     end
 
     fig.UserData = state;
@@ -207,7 +207,7 @@ function on_undo(fig, ax, status_label, count_label, preview_area, done_btn, und
     else
         [entry, body] = generate_zone_code(state.ellipses, ...
             state.image_number, state.category);
-        preview_area.Value = [char(entry), newline, newline, body];
+        preview_area.Value = splitlines(sprintf('%s\n\n%s', entry, body));
     end
 
     save_btn.Enable = 'off';

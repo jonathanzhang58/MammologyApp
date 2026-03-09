@@ -5,7 +5,7 @@ function append_to_function_list(map_entry, func_body)
 %              Pass "" or omit for benign cases that reuse benign()
 
     if nargin < 2
-        func_body = "";
+        func_body = '';
     end
 
     filepath = fullfile(fileparts(mfilename('fullpath')), 'function_list.m');
@@ -30,16 +30,28 @@ function append_to_function_list(map_entry, func_body)
 
     % Build new file contents
     new_lines = lines(1:last_entry_idx);
-    new_lines = [new_lines; map_entry];
+    new_lines = [new_lines; string(map_entry)];
 
-    if func_body ~= ""
-        % Insert function body before the comment block
+    if ~isempty(func_body) && strlength(string(func_body)) > 0
+        % Split func_body into individual lines for clean insertion
+        body_lines = splitlines(string(func_body));
         new_lines = [new_lines; lines(last_entry_idx+1:comment_idx-1)];
-        new_lines = [new_lines; func_body];
+        new_lines = [new_lines; body_lines];
         new_lines = [new_lines; lines(comment_idx:end)];
     else
         new_lines = [new_lines; lines(last_entry_idx+1:end)];
     end
 
-    writelines(new_lines, filepath);
+    % Remove trailing empty lines (readlines artifact)
+    while ~isempty(new_lines) && strlength(new_lines(end)) == 0
+        new_lines(end) = [];
+    end
+
+    % Write using fprintf for R2020b compatibility (writelines requires R2022a)
+    fid = fopen(filepath, 'w');
+    if fid == -1
+        error('Could not open %s for writing.', filepath);
+    end
+    fprintf(fid, '%s\n', new_lines);
+    fclose(fid);
 end
