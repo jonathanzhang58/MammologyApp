@@ -87,10 +87,7 @@ function case_creator()
     state.category = category;
     fig.UserData = state;
 
-    %% Click callback on axes
-    ax.ButtonDownFcn = @(~, event) on_axes_click(fig, ax, event, ...
-        status_label, count_label, preview_area, done_btn, undo_btn);
-    % Also make the image respond to clicks
+    %% Click callback on image only (not axes — avoids event conflicts)
     img_obj = findobj(ax, 'Type', 'Image');
     if ~isempty(img_obj)
         img_obj.HitTest = 'on';
@@ -118,8 +115,8 @@ function on_axes_click(fig, ax, event, status_label, count_label, preview_area, 
         % First click: center
         state.current_center = [x, y];
         state.click_count = 1;
-        % Draw a marker at center
-        h = plot(ax, x, y, 'r+', 'MarkerSize', 15, 'LineWidth', 2);
+        fig.UserData = state;  % save before UI updates (plot can trigger drawnow)
+        h = plot(ax, x, y, 'r+', 'MarkerSize', 15, 'LineWidth', 2, 'HitTest', 'off');
         state.click_markers{end+1} = h;
         status_label.Text = sprintf('Click horizontal edge (2/3) — center: (%.1f, %.1f)', x, y);
 
@@ -127,7 +124,8 @@ function on_axes_click(fig, ax, event, status_label, count_label, preview_area, 
         % Second click: horizontal radius
         state.current_rx = abs(x - state.current_center(1));
         state.click_count = 2;
-        h = plot(ax, x, y, 'rx', 'MarkerSize', 10, 'LineWidth', 2);
+        fig.UserData = state;  % save before UI updates
+        h = plot(ax, x, y, 'rx', 'MarkerSize', 10, 'LineWidth', 2, 'HitTest', 'off');
         state.click_markers{end+1} = h;
         status_label.Text = sprintf('Click vertical edge (3/3) — rx: %.1f', state.current_rx);
 
@@ -138,11 +136,12 @@ function on_axes_click(fig, ax, event, status_label, count_label, preview_area, 
         cy = state.current_center(2);
         rx = state.current_rx;
 
-        % Store ellipse
+        % Store ellipse and reset click state
         state.ellipses = [state.ellipses; cx, cy, rx, ry];
         state.click_count = 0;
         state.current_center = [];
         state.current_rx = [];
+        fig.UserData = state;  % save IMMEDIATELY before any UI/plot calls
 
         % Clear temporary markers
         for k = 1:length(state.click_markers)
@@ -150,12 +149,12 @@ function on_axes_click(fig, ax, event, status_label, count_label, preview_area, 
         end
         state.click_markers = {};
 
-        % Draw the ellipse overlay
+        % Draw the ellipse overlay (HitTest off so clicks pass through to image)
         theta = linspace(0, 2*pi, 100);
         ex = cx + rx * cos(theta);
         ey = cy + ry * sin(theta);
-        h = plot(ax, ex, ey, 'r-', 'LineWidth', 2);
-        hc = plot(ax, cx, cy, 'r+', 'MarkerSize', 10, 'LineWidth', 2);
+        h = plot(ax, ex, ey, 'r-', 'LineWidth', 2, 'HitTest', 'off');
+        hc = plot(ax, cx, cy, 'r+', 'MarkerSize', 10, 'LineWidth', 2, 'HitTest', 'off');
         state.plot_handles{end+1} = [h, hc];
 
         n = size(state.ellipses, 1);
@@ -228,7 +227,6 @@ function on_done(fig, preview_area, save_btn, done_btn, status_label, ax)
     state.current_rx = [];
 
     % Disable further clicking
-    ax.ButtonDownFcn = [];
     img_obj = findobj(ax, 'Type', 'Image');
     if ~isempty(img_obj)
         img_obj.ButtonDownFcn = [];
