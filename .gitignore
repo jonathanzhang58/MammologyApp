@@ -4,3 +4,8 @@
 temp_image_holder/
 Results/
 *.xls
+*.xlsx
+*.zip
+.claude/
+new/
+CLAUDE.md

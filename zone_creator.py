@@ -28,12 +28,12 @@ def zone(list_of_points, number):
    
    print(f"funcStruct('Images/{number:03d}_CCMLO_wbenign.jpg') = "
          f"{{@(x, y) {number_name}_CCMLO_wbenign(x, y),"
-         f'"Answers/{number:03d}_CCMLO_wannot.jpg", "category3 (image 3-4)"}};')
+         f'"Answers/{number:03d}_CCMLO_wannot.jpg", "category3 (image 3-4)"}};\n')
    
    return result
 
 
-# print(zone([[20,16,18,19]], 152))
-print(zone([[44,37,41,41],[9.1,18,6.1,22]], 177 ))
-# print(zone([[56,34,50,46],[23,37,19,45],[23,20, 19, 26]], 118))
-# print(zone([[4,45,47,49],[51,49,50,52],[17,37,15,42],[19,42,18,45]], 168))
+# print(zone([[24.02,16.08,20.94,22.76]], 1000277))
+print(zone([[10.38,16.69,8.02,21.38],[36.67,20.6,33.91,26.33]], 1000290))
+# print(zone([[11.11,38.54,6.87,45.66],[45.05,5.66,6.03,11.51],[43.23,28.86,39.4,35.62]], 1000236))
+# print(zone([[3.11,12.44,0.56,17.36],[37.85,18.46,35.52,21.76],[2.83,43.88,0,47.74],[38.35,52.53,34.91,56.94]], 1000087))
